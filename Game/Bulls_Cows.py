@@ -6,7 +6,7 @@ def main():
 
     prompt_print1(TEXTS, sep, GAME_CHOOSE)
 
-    difficulty = game_difficulty()
+    difficulty = game_difficulty(GAME_CHOOSE)
 
     num_quantity = int(GAME_CHOOSE[difficulty][0])
 
@@ -63,14 +63,19 @@ def prompt_print2(text: tuple, sep: str,
     print(f"{sep}\n{text[3]}\n{sep}")
 
 
-def game_difficulty() -> int:
+def game_difficulty(game_choose) -> int:
     while True:
         choose = input("Choose your game:\n")
 
         try:
             num = int(choose)
+
         except ValueError:
             print("Warning...Wrong value!")
+            continue
+
+        if num - 1 not in range(len(game_choose)):
+            print("Wrong choice! Your choice is out of range.")
             continue
 
         return num-1
