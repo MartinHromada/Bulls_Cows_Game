@@ -16,8 +16,21 @@ def main():
         create_file(HEADER, FILE_PATH, width, file_sep)
 
     guessed_nums = random_nums(num_quantity)
-    guesses = 0
+
     start_time = time()
+
+    result = game(guessed_nums, sep, num_quantity)
+
+    end_time = time()
+
+    elapsed_time = time_count(start_time, end_time)
+
+    print_to_file(result, elapsed_time, guessed_nums, date, FILE_PATH,
+                  width, file_sep)
+
+
+def game(guessed_nums: dict, sep: str, num_quantity: int) -> int:
+    guesses = 0
 
     while True:
         guesses += 1
@@ -25,17 +38,15 @@ def main():
         result = bull_cow_conditions(player, guessed_nums)
 
         if win_condition(result, guesses, num_quantity):
-            result_evaluation(guesses, EVALUATION)
             break
         else:
             print("{} {}/{} {}".format(*result))
             print(sep)
             continue
 
-    end_time = time()
-    elapsed_time = time_count(start_time, end_time)
-    print_to_file(guesses, elapsed_time, guessed_nums, date, FILE_PATH,
-                  width, file_sep)
+    result_evaluation(guesses, EVALUATION)
+
+    return guesses
 
 
 def file_sep_width(head: tuple, dat) -> list:
@@ -44,6 +55,7 @@ def file_sep_width(head: tuple, dat) -> list:
     width.append(len(str(dat)) + 2)
     new_list.append(width)
     new_list.append((sum(width) + 5) * "-")
+
     return new_list
 
 
@@ -150,6 +162,11 @@ def bull_cow_conditions(player: dict, guessed_nums: dict) -> list:
             else:
                 result_list[2] += 1
 
+    result_list = plural_singular(result_list)
+    return result_list
+
+
+def plural_singular(result_list: list) -> list:
     if result_list[0] == 1:
         result_list.pop(1)
         result_list.insert(1, "bull")
@@ -167,8 +184,8 @@ def win_condition(result: list, guesses: int, num_quantity: int) -> bool:
             print("Congratulation, you've guessed right number\nin 1 guess!")
             return True
         else:
-            print("Congratulation, you've guessed right number\nin {} guesses!"
-                  .format(guesses))
+            print("Congratulation, you've guessed right number\nin %d guesses!"
+                  % guesses)
             return True
     else:
         return False
@@ -234,4 +251,5 @@ if __name__ == "__main__":
     FILE_PATH = os.path.split(sys.argv[0])[0] + "/" + "results.txt"
     EVALUATION = {10: "amazing", 20: "average", 30: "not so good"}
     GAME_CHOOSE = "3-Numbers", "4-Numbers", "5-Numbers"
+
     main()
