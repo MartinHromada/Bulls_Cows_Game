@@ -1,3 +1,10 @@
+import datetime
+import os
+import sys
+from random import choice
+from time import time
+
+
 def main():
     date = datetime.date.today()
     sep = len(TEXTS[4]) * "-"
@@ -124,6 +131,8 @@ def player_choice(num_quantity: int) -> dict:
 
         if input_duplicate_check(player_dic, num_quantity):
             continue
+        if first_num(player_dic):
+            continue
         else:
             return player_dic
 
@@ -147,6 +156,14 @@ def input_len_check(player_input: str, num_quantity: int) -> bool:
 def input_duplicate_check(nums: dict, num_quantity: int) -> bool:
     if len(nums) < num_quantity:
         print("Your numbers must be unique! Try it again:")
+        return True
+    else:
+        return False
+
+
+def first_num(nums: dict) -> bool:
+    if nums[0] == 0:
+        print("The first number can't be zero! Try it again:")
         return True
     else:
         return False
@@ -236,11 +253,6 @@ def print_to_file(num: int, g_t: str, g_num: dict, dat,
 
 
 if __name__ == "__main__":
-    import datetime
-    import os
-    import sys
-    from random import choice
-    from time import time
 
     TEXTS = "Welcome to BULLS & COWS game",\
             "I've generated a random {} digit number for you.",\
