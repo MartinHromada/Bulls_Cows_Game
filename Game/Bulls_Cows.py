@@ -131,7 +131,7 @@ def player_choice(num_quantity: int) -> dict:
 
         if input_duplicate_check(player_dic, num_quantity):
             continue
-        if first_num(player_dic):
+        if first_num(player_input):
             continue
         else:
             return player_dic
@@ -161,7 +161,7 @@ def input_duplicate_check(nums: dict, num_quantity: int) -> bool:
         return False
 
 
-def first_num(nums: dict) -> bool:
+def first_num(nums: str) -> bool:
     if nums[0] == 0:
         print("The first number can't be zero! Try it again:")
         return True
